@@ -15,6 +15,13 @@ public class UIManager : MonoBehaviour {
 	[SerializeField] private GameObject _gameOverMenu;
 	[SerializeField] private TMP_Text _gameOverCoinsText;
 
+	private void Awake(){
+		if (GameManager.Instance.HasGameStarted)
+			_initialMenu.SetActive(false);
+
+		UpdateCoins(GameManager.Instance.Coins);
+	}
+
 	private void OnEnable() {
 		PlayerController.OnFirstTap += () => _initialMenu.SetActive(false);
 		GameManager.OnUpdateCoins += (coins) => UpdateCoins(coins);

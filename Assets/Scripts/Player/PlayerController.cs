@@ -103,8 +103,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void ApplyGravityHelper() {
-		if (!_isRotating && _isOnCutSequence)
+		if (!_isRotating && _isOnCutSequence) {
 			_rigidbody.velocity += Vector3.up * Physics.gravity.y * _cutSequenceMultiplier * Time.deltaTime;
+			_rigidbody.velocity = new Vector3(0, _rigidbody.velocity.y, 0);
+		}
 	}
 
 	private void GetStuckOn(Rigidbody rigidbody) {

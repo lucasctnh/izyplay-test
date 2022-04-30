@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 7702986103294370095}
   - component: {fileID: 7702986103294370092}
   m_Layer: 3
-  m_Name: Player
+  m_Name: Butcher
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

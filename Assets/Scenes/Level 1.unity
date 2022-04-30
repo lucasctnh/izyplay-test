@@ -2259,7 +2259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 83
+    m_Left: 94
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
@@ -2307,7 +2307,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 16.94, y: 20}
+  m_SizeDelta: {x: 42.5, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &836053837
 MonoBehaviour:
@@ -2363,7 +2363,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2449,6 +2449,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f00b99b651b27f4d88092a73dda4ee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _initialMenu: {fileID: 1485288000}
+  _coinsText: {fileID: 836053837}
 --- !u!1 &931077227
 GameObject:
   m_ObjectHideFlags: 0
@@ -6748,10 +6750,6 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1321144079}
-    - target: {fileID: 5615717602795348994, guid: 18a51fae26bde544ab4c848869c49a54, type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 1321144079}
     - target: {fileID: 5615717602795348995, guid: 18a51fae26bde544ab4c848869c49a54, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -6761,10 +6759,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1284866173}
     - target: {fileID: 5615717603565383539, guid: 18a51fae26bde544ab4c848869c49a54, type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 1284866173}
-    - target: {fileID: 5615717603565383541, guid: 18a51fae26bde544ab4c848869c49a54, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1284866173}

@@ -13,20 +13,20 @@ public class Blade : MonoBehaviour {
 		if (other.gameObject.CompareTag("Stuckable") && _canStuck)
 			OnBladeStuck?.Invoke(other.rigidbody);
 
-		if (other.gameObject.CompareTag("Cuttable")) {
-			OnBladeCut?.Invoke();
-			RagdollCuttableChildren(other.transform);
-		}
+		if (other.gameObject.CompareTag("Cuttable"))
+			Cut(other.transform);
 	}
 
-	private void RagdollCuttableChildren(Transform cuttable) {
+	private void Cut(Transform cuttable) {
 		foreach (Transform child in cuttable) {
 			Rigidbody rb = child.gameObject.AddComponent<Rigidbody>();
-			rb.AddExplosionForce(10f, child.transform.position, .5f, 0f, ForceMode.VelocityChange);
+			rb.AddForce(-child.transform.forward * 7f, ForceMode.VelocityChange);
 		}
 
 		cuttable.DetachChildren();
 		Destroy(cuttable.gameObject);
+
+		OnBladeCut?.Invoke();
 	}
 
 	private IEnumerator WaitToGetStuckAgain() {

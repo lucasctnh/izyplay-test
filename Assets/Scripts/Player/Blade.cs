@@ -7,6 +7,9 @@ public class Blade : MonoBehaviour {
 	public static event Action<Rigidbody> OnBladeStuck;
 	public static event Action OnBladeCut;
 
+	[SerializeField] private float _cutForce = 7f;
+	[SerializeField] private float _minDistanceToDestroy = 40f;
+
 	private bool _canStuck = true;
 
 	public void OnCollisionEnter(Collision other) {
@@ -20,7 +23,11 @@ public class Blade : MonoBehaviour {
 	private void Cut(Transform cuttable) {
 		foreach (Transform child in cuttable) {
 			Rigidbody rb = child.gameObject.AddComponent<Rigidbody>();
-			rb.AddForce(-child.transform.forward * 7f, ForceMode.VelocityChange);
+			rb.AddForce(-child.transform.forward * _cutForce, ForceMode.VelocityChange);
+
+			DestroyFarFromPlayer far = child.gameObject.AddComponent<DestroyFarFromPlayer>();
+			far.player = transform;
+			far.minDistance = _minDistanceToDestroy;
 		}
 
 		cuttable.DetachChildren();

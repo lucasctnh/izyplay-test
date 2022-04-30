@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Stuckable
   - Cuttable
+  - Blade
+  - Handle
+  - Blade Edge
   layers:
   - Default
   - TransparentFX

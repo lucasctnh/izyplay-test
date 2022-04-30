@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour {
 			return;
 
 		if (context.started) {
-			if (GameManager.Instance.IsFirstTap)
+			if (!GameManager.Instance.HasGameStarted)
 				OnFirstTap?.Invoke();
 
 			PrepareToRotate();

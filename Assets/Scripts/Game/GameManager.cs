@@ -1,18 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+public class GameManager : MonoBehaviour {
+	public static event Action<int> OnUpdateCoins;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	private int _coins = 0;
+
+	private void OnEnable() => Blade.OnBladeCut += IncreaseCoins;
+
+	private void OnDisable() => Blade.OnBladeCut -= IncreaseCoins;
+
+	private void IncreaseCoins() {
+		_coins++;
+		OnUpdateCoins?.Invoke(_coins);
+	}
 }

@@ -316,7 +316,7 @@ MonoBehaviour:
   _defaultAngularDrag: 0.05
   _backwardsVerticalMultiplier: 0.6
   _backwardsHorizontalMultiplier: 1.25
-  _cutSequenceMultiplier: 8
+  _cutSequenceMultiplier: 15
   _blade: {fileID: 7702986101398275087}
   _handle: {fileID: 7702986101717915933}
 --- !u!114 &7702986103294370095

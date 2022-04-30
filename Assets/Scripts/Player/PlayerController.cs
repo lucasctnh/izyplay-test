@@ -25,7 +25,8 @@ public class PlayerController : MonoBehaviour {
 
 	private FixedJoint _FixedJoint {
 		get {
-			_fixedJoint = GetComponent<FixedJoint>();
+			if (this != null)
+				_fixedJoint = GetComponent<FixedJoint>();
 			return _fixedJoint;
 		}
 	}
@@ -41,13 +42,11 @@ public class PlayerController : MonoBehaviour {
 	private bool _canCountRotations = true;
 	private bool _canRotate = false;
 	private bool _isOnCutSequence = false;
-	private bool _isFirstTap = true;
 
 	private void OnEnable() {
 		Blade.OnBladeStuck += (rigidbody) => GetStuckOn(rigidbody);
 		Blade.OnBladeCut += HandleCutSequence;
 		Handle.OnHit += RotateBackwards;
-		OnFirstTap += () => _isFirstTap = false;
 
 	}
 
@@ -55,7 +54,6 @@ public class PlayerController : MonoBehaviour {
 		Blade.OnBladeStuck -= (rigidbody) => GetStuckOn(rigidbody);
 		Blade.OnBladeCut -= HandleCutSequence;
 		Handle.OnHit -= RotateBackwards;
-		OnFirstTap -= () => _isFirstTap = false;
 	}
 
 	private void Awake() {
@@ -64,6 +62,9 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void FixedUpdate() {
+		if (!GameManager.Instance.IsGameRunning)
+			return;
+
 		if (_isRotating && _rotationsAroundItself >= 1 && IsRotationCloseToDefault(transform.rotation, GetPrecisionFromEulerAngles(0, 0, 3f))) {
 			_isRotating = false;
 			_rotationsAroundItself--;
@@ -79,6 +80,9 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void Update() {
+		if (!GameManager.Instance.IsGameRunning)
+			return;
+
 		if (_isRotating && _canCountRotations) {
 			_timeRotating += Time.deltaTime;
 			CountRotations(GetFullAngleFromRotations(transform.rotation, _defaultRotation, Vector3.right));
@@ -95,8 +99,11 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void Move(InputAction.CallbackContext context) {
+		if (!GameManager.Instance.IsGameRunning)
+			return;
+
 		if (context.started) {
-			if (_isFirstTap)
+			if (GameManager.Instance.IsFirstTap)
 				OnFirstTap?.Invoke();
 
 			PrepareToRotate();
@@ -124,10 +131,12 @@ public class PlayerController : MonoBehaviour {
 		_rotationsAroundItself = 0;
 		_isOnCutSequence = false;
 
-		if (_FixedJoint == null)
-			CreateFixedJoint();
+		if (this != null) { // workaround missing reference exception
+			if (_FixedJoint == null)
+				CreateFixedJoint();
 
-		StartCoroutine(ConfigureJoint(rigidbody));
+			StartCoroutine(ConfigureJoint(rigidbody));
+		}
 	}
 
 	private void RotateBackwards() {

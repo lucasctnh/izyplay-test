@@ -9,23 +9,24 @@ public class GameManager : MonoBehaviour {
 
 	public static event Action<int> OnUpdateCoins;
 
+	public int Coins { get { return _coins; } }
 	public bool IsGameRunning { get { return _isGameRunning; } private set { _isGameRunning = value; } }
-	public bool IsFirstTap { get { return _isFirstTap; } private set { _isFirstTap = value; } }
+	public bool HasGameStarted { get { return _hasGameStarted; } private set { _hasGameStarted = value; } }
 
 	[SerializeField] private int _targetFrameRate = 60;
 
 	private int _coins = 0;
 	private bool _isGameRunning = true;
-	private bool _isFirstTap = true;
+	private bool _hasGameStarted = false;
 
 	private void OnEnable() {
-		PlayerController.OnFirstTap += () => IsFirstTap = false;
+		PlayerController.OnFirstTap += () => HasGameStarted = true;
 		EndGame.OnEndGame += (multiplier) => GameOver(multiplier);
 		Blade.OnBladeCut += IncreaseCoins;
 	}
 
 	private void OnDisable() {
-		PlayerController.OnFirstTap -= () => IsFirstTap = false;
+		PlayerController.OnFirstTap -= () => HasGameStarted = true;
 		EndGame.OnEndGame -= (multiplier) => GameOver(multiplier);
 		Blade.OnBladeCut -= IncreaseCoins;
 	}
@@ -42,7 +43,12 @@ public class GameManager : MonoBehaviour {
 		LimitFrameRate();
 	}
 
-	public void LoadNextLevel() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Single);
+	public void LoadNextLevel() {
+		ResetGameState();
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Single);
+	}
+
+	private void ResetGameState() => _isGameRunning = true;
 
 	private void LimitFrameRate() {
 		QualitySettings.vSyncCount = 0;

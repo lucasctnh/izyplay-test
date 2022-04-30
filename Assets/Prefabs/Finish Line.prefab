@@ -493,6 +493,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6266405462100222518}
+  - component: {fileID: 6469731965022225585}
   - component: {fileID: 6266405462100222519}
   - component: {fileID: 6266405462100222520}
   - component: {fileID: 6266405462100222521}
@@ -518,6 +519,19 @@ Transform:
   m_Father: {fileID: 1493518973996470827}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6469731965022225585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6266405462100222522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729979e19486230468a5125227e94b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _coinsMultiplier: 2
 --- !u!33 &6266405462100222519
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -723,6 +737,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6266405462229808265}
+  - component: {fileID: 8849948287905153418}
   - component: {fileID: 6266405462229808266}
   - component: {fileID: 6266405462229808267}
   - component: {fileID: 6266405462229808268}
@@ -747,6 +762,19 @@ Transform:
   m_Father: {fileID: 1493518973996470827}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8849948287905153418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6266405462229808269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729979e19486230468a5125227e94b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _coinsMultiplier: 1
 --- !u!33 &6266405462229808266
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1034,6 +1062,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6266405462346922822}
+  - component: {fileID: 6531942572297899648}
   - component: {fileID: 6266405462346922823}
   - component: {fileID: 6266405462346922824}
   - component: {fileID: 6266405462346922825}
@@ -1059,6 +1088,19 @@ Transform:
   m_Father: {fileID: 1493518973996470827}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6531942572297899648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6266405462346922826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729979e19486230468a5125227e94b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _coinsMultiplier: 10
 --- !u!33 &6266405462346922823
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1212,6 +1254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6266405462705893322}
+  - component: {fileID: 4825301969116174895}
   - component: {fileID: 6266405462705893323}
   - component: {fileID: 6266405462705893324}
   - component: {fileID: 6266405462705893325}
@@ -1237,6 +1280,19 @@ Transform:
   m_Father: {fileID: 1493518973996470827}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4825301969116174895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6266405462705893326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729979e19486230468a5125227e94b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _coinsMultiplier: 6
 --- !u!33 &6266405462705893323
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1308,6 +1364,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6266405462721318002}
+  - component: {fileID: 4070237263689168666}
   - component: {fileID: 6266405462721318003}
   - component: {fileID: 6266405462721318004}
   - component: {fileID: 6266405462721318005}
@@ -1333,6 +1390,19 @@ Transform:
   m_Father: {fileID: 1493518973996470827}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4070237263689168666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6266405462721318006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729979e19486230468a5125227e94b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _coinsMultiplier: 4
 --- !u!33 &6266405462721318003
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1486,6 +1556,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6266405463002514865}
+  - component: {fileID: 8710712944538738396}
   - component: {fileID: 6266405463002514866}
   - component: {fileID: 6266405463002514867}
   - component: {fileID: 6266405463002514868}
@@ -1510,6 +1581,19 @@ Transform:
   m_Father: {fileID: 1493518973996470827}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8710712944538738396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6266405463002514869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729979e19486230468a5125227e94b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _coinsMultiplier: 1
 --- !u!33 &6266405463002514866
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1581,6 +1665,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6266405463028826563}
+  - component: {fileID: 8326171987706164464}
   - component: {fileID: 6266405463028826564}
   - component: {fileID: 6266405463028826565}
   - component: {fileID: 6266405463028826566}
@@ -1606,6 +1691,19 @@ Transform:
   m_Father: {fileID: 1493518973996470827}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8326171987706164464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6266405463028826567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729979e19486230468a5125227e94b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _coinsMultiplier: 50
 --- !u!33 &6266405463028826564
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1677,6 +1775,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6266405463085005259}
+  - component: {fileID: 2217621508043934230}
   - component: {fileID: 6266405463085005260}
   - component: {fileID: 6266405463085005261}
   - component: {fileID: 6266405463085005262}
@@ -1702,6 +1801,19 @@ Transform:
   m_Father: {fileID: 1493518973996470827}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2217621508043934230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6266405463085005263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729979e19486230468a5125227e94b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _coinsMultiplier: 3
 --- !u!33 &6266405463085005260
 MeshFilter:
   m_ObjectHideFlags: 0

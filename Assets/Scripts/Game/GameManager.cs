@@ -8,12 +8,23 @@ public class GameManager : MonoBehaviour {
 
 	private int _coins = 0;
 
-	private void OnEnable() => Blade.OnBladeCut += IncreaseCoins;
+	private void OnEnable() {
+		Blade.OnBladeCut += IncreaseCoins;
+		EndGame.OnEndGame += (multiplier) => MultiplyCoins(multiplier);
+	}
 
-	private void OnDisable() => Blade.OnBladeCut -= IncreaseCoins;
+	private void OnDisable() {
+		Blade.OnBladeCut -= IncreaseCoins;
+		EndGame.OnEndGame -= (multiplier) => MultiplyCoins(multiplier);
+	}
 
 	private void IncreaseCoins() {
 		_coins++;
+		OnUpdateCoins?.Invoke(_coins);
+	}
+
+	private void MultiplyCoins(int multiplier) {
+		_coins *= multiplier;
 		OnUpdateCoins?.Invoke(_coins);
 	}
 }

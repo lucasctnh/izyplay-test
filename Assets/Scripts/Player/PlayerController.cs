@@ -6,8 +6,6 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour {
-	public static event Action OnFirstTap;
-
 	[Header("Settings")]
 	[SerializeField] private float _upwardsForce = 200f;
 	[SerializeField] private float _forwardsForce = 200f;
@@ -44,13 +42,14 @@ public class PlayerController : MonoBehaviour {
 	private bool _isOnCutSequence = false;
 
 	private void OnEnable() {
+		UIManager.OnTapTouchableArea += Move;
 		Blade.OnBladeStuck += (rigidbody) => GetStuckOn(rigidbody);
 		Blade.OnBladeCut += HandleCutSequence;
 		Handle.OnHit += RotateBackwards;
-
 	}
 
 	private void OnDisable() {
+		UIManager.OnTapTouchableArea -= Move;
 		Blade.OnBladeStuck -= (rigidbody) => GetStuckOn(rigidbody);
 		Blade.OnBladeCut -= HandleCutSequence;
 		Handle.OnHit -= RotateBackwards;
@@ -98,17 +97,12 @@ public class PlayerController : MonoBehaviour {
 			_handle.OnCollisionEnter(other);
 	}
 
-	public void Move(InputAction.CallbackContext context) {
+	private void Move() {
 		if (!GameManager.Instance.IsGameRunning)
 			return;
 
-		if (context.started) {
-			if (!GameManager.Instance.HasGameStarted)
-				OnFirstTap?.Invoke();
-
-			PrepareToRotate();
-			AddMovementForces();
-		}
+		PrepareToRotate();
+		AddMovementForces();
 	}
 
 	private void HandleCutSequence() {

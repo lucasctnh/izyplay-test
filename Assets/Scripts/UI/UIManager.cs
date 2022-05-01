@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class UIManager : MonoBehaviour {
+	public static event Action OnTapTouchableArea;
+	public static event Action OnFirstTap;
+
 	[Header("Initial Menu")]
 	[SerializeField] private GameObject _initialMenu;
 	[SerializeField] private TMP_Text _coinsText;
@@ -23,15 +27,22 @@ public class UIManager : MonoBehaviour {
 	}
 
 	private void OnEnable() {
-		PlayerController.OnFirstTap += () => _initialMenu.SetActive(false);
+		OnFirstTap += () => _initialMenu.SetActive(false);
 		GameManager.OnUpdateCoins += (coins) => UpdateCoins(coins);
 		EndGame.OnEndGame += (mult) => _gameOverMenu.SetActive(true);
 	}
 
 	private void OnDisable() {
-		PlayerController.OnFirstTap -= () => _initialMenu.SetActive(false);
+		OnFirstTap -= () => _initialMenu.SetActive(false);
 		GameManager.OnUpdateCoins -= (coins) => UpdateCoins(coins);
 		EndGame.OnEndGame -= (mult) => _gameOverMenu.SetActive(true);
+	}
+
+	public void TapTouchableArea() {
+		OnTapTouchableArea?.Invoke();
+
+		if (!GameManager.Instance.HasGameStarted)
+			OnFirstTap?.Invoke();
 	}
 
 	private void UpdateCoins(int coins) {

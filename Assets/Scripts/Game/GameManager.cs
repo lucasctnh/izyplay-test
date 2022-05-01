@@ -14,19 +14,21 @@ public class GameManager : MonoBehaviour {
 	public bool HasGameStarted { get { return _hasGameStarted; } private set { _hasGameStarted = value; } }
 
 	[SerializeField] private int _targetFrameRate = 60;
+	[SerializeField] private Transform _playerSpawn;
+	[SerializeField] private GameObject _skinPrefab;
 
 	private int _coins = 0;
 	private bool _isGameRunning = true;
 	private bool _hasGameStarted = false;
 
 	private void OnEnable() {
-		PlayerController.OnFirstTap += () => HasGameStarted = true;
+		UIManager.OnFirstTap += () => HasGameStarted = true;
 		EndGame.OnEndGame += (multiplier) => GameOver(multiplier);
 		Blade.OnBladeCut += IncreaseCoins;
 	}
 
 	private void OnDisable() {
-		PlayerController.OnFirstTap -= () => HasGameStarted = true;
+		UIManager.OnFirstTap -= () => HasGameStarted = true;
 		EndGame.OnEndGame -= (multiplier) => GameOver(multiplier);
 		Blade.OnBladeCut -= IncreaseCoins;
 	}
@@ -41,6 +43,13 @@ public class GameManager : MonoBehaviour {
 		DontDestroyOnLoad(gameObject);
 
 		LimitFrameRate();
+	}
+
+	public void ChangeSkin() {
+		GameObject player = GameObject.FindGameObjectWithTag("Player");
+		GameObject newPlayer = Instantiate(_skinPrefab, _playerSpawn.position, _skinPrefab.transform.rotation);
+		Camera.main.GetComponent<FollowTarget>().SetNewTarget(newPlayer.transform);
+		Destroy(player);
 	}
 
 	public void LoadNextLevel() {

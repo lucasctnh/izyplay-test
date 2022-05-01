@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9185662497567691025}
   - component: {fileID: 9185662497567691026}
-  - component: {fileID: 9185662497567691027}
   - component: {fileID: 9185662497567691024}
   m_Layer: 3
   m_Name: Chef
@@ -26,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9185662497567691036}
-  m_LocalRotation: {x: -0, y: -0, z: -0.29479724, w: 0.95555985}
+  m_LocalRotation: {x: 0, y: 0, z: -0.29479918, w: 0.95555925}
   m_LocalPosition: {x: -104.05, y: 10.43, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -58,52 +57,6 @@ MonoBehaviour:
   _cutSequenceMultiplier: 15
   _blade: {fileID: 9185662497885680691}
   _handle: {fileID: 9185662498071456033}
---- !u!114 &9185662497567691027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9185662497567691036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 9e718576f6ec95a44b2e04f0821a3b1a, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 9185662497567691026}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: Move
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 9d40428e-e6cc-4502-83c5-c97e1c5eb34d
-    m_ActionName: Player/Action[/Mouse/leftButton]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!54 &9185662497567691024
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -133,7 +86,10 @@ GameObject:
   - component: {fileID: 9185662497885680700}
   - component: {fileID: 9185662497885680701}
   - component: {fileID: 8769496480583622813}
-  - component: {fileID: 8820382856732018496}
+  - component: {fileID: 921617199}
+  - component: {fileID: 921617200}
+  - component: {fileID: 921617201}
+  - component: {fileID: 921617204}
   m_Layer: 3
   m_Name: Blade
   m_TagString: Blade
@@ -518,8 +474,8 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!64 &8820382856732018496
-MeshCollider:
+--- !u!65 &921617199
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -528,10 +484,48 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  serializedVersion: 2
+  m_Size: {x: 0.3579032, y: 0.86174345, z: 1.0000004}
+  m_Center: {x: -0.3210488, y: 0.06913159, z: 0}
+--- !u!65 &921617200
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9185662497885680696}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.14949335, y: 0.39409745, z: 1.0000004}
+  m_Center: {x: 0.22299442, y: 0.30296385, z: 0}
+--- !u!65 &921617201
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9185662497885680696}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.2907219, y: 0.6423273, z: 1.0000004}
+  m_Center: {x: 0.0010538052, y: 0.17884576, z: 0}
+--- !u!65 &921617204
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9185662497885680696}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.19943313, y: 0.16474015, z: 1.0000004}
+  m_Center: {x: 0.40027732, y: 0.41763934, z: 0}
 --- !u!1 &9185662498071456046
 GameObject:
   m_ObjectHideFlags: 0

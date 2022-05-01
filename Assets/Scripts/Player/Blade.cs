@@ -7,7 +7,11 @@ public class Blade : MonoBehaviour {
 	public static event Action<Rigidbody> OnBladeStuck;
 	public static event Action OnBladeCut;
 
+	[Header("Settings")]
+	[Tooltip("The force to be applied to throw the halfs of the cuttable away")]
 	[SerializeField] private float _cutForce = 7f;
+
+	[Tooltip("The minimum distance from the player for the halfs of cuttable start to destroy themselves")]
 	[SerializeField] private float _minDistanceToDestroy = 40f;
 
 	private bool _canStuck = true;
@@ -22,7 +26,10 @@ public class Blade : MonoBehaviour {
 
 	private void Cut(Transform cuttable) {
 		foreach (Transform child in cuttable) {
-			Rigidbody rb = child.gameObject.AddComponent<Rigidbody>();
+			Rigidbody rb = child.gameObject.GetComponent<Rigidbody>();
+			if (rb == null)
+				rb = child.gameObject.AddComponent<Rigidbody>();
+
 			rb.AddForce(-child.transform.forward * _cutForce, ForceMode.VelocityChange);
 
 			DestroyFarFromPlayer far = child.gameObject.AddComponent<DestroyFarFromPlayer>();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public class FollowTarget : MonoBehaviour {
+public class CameraController : MonoBehaviour {
 	[Header("Settings")]
 	[SerializeField] private float _smoothSpeed = 0.125f;
 

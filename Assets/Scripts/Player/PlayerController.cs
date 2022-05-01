@@ -85,27 +85,25 @@ public class PlayerController : MonoBehaviour {
 			return;
 
 		if (_isRotating && _rotationsAroundItself >= 1 && IsRotationCloseToDefault(transform.rotation, GetPrecisionFromEulerAngles(0, 0, 3f))) {
-			_isRotating = false;
 			_rotationsAroundItself--;
 
 			if (_rotationsAroundItself == 0)
-				StopPlayer();
+				CapRotation();
 		}
 
 		if (_canRotate)
 			Rotate();
 
-		ApplyGravityHelper();
+		if (!_isRotating && _isOnCutSequence)
+			ApplyGravityHelper();
 	}
 
 	private void Update() {
 		if (!GameManager.Instance.IsGameRunning)
 			return;
 
-		if (_isRotating && _canCountRotations) {
-			_timeRotating += Time.deltaTime;
+		if (_isRotating && _canCountRotations)
 			CountRotations(GetFullAngleFromRotations(transform.rotation, _defaultRotation, Vector3.right));
-		}
 	}
 
 	private void OnCollisionEnter(Collision other) {
@@ -120,6 +118,23 @@ public class PlayerController : MonoBehaviour {
 			_handle.OnCollisionEnter(other);
 	}
 
+	private void CapRotation() {
+		StopRotation();
+
+		_rigidbody.angularDrag = 100f;
+		transform.rotation = _defaultRotation;
+	}
+
+	private void StopRotation() {
+		_canRotate = false;
+		_isRotating = false;
+	}
+
+	private void ApplyGravityHelper() {
+		_rigidbody.velocity += Vector3.up * Physics.gravity.y * _cutSequenceMultiplier * Time.deltaTime;
+		_rigidbody.velocity = new Vector3(0, _rigidbody.velocity.y, 0); // enforce player to go only down
+	}
+
 	private void Move() {
 		if (!GameManager.Instance.IsGameRunning)
 			return;
@@ -128,81 +143,41 @@ public class PlayerController : MonoBehaviour {
 		AddMovementForces();
 	}
 
-	private void HandleCutSequence() {
-		float timeDiff = Time.time - _lastCutTime;
-		_lastCutTime = Time.time;
-
-		_isOnCutSequence = timeDiff < .6f;
-	}
-
-	private void ApplyGravityHelper() {
-		if (!_isRotating && _isOnCutSequence) {
-			_rigidbody.velocity += Vector3.up * Physics.gravity.y * _cutSequenceMultiplier * Time.deltaTime;
-			_rigidbody.velocity = new Vector3(0, _rigidbody.velocity.y, 0);
-		}
-	}
-
-	private void GetStuckOn(Rigidbody rigidbody) {
-		_canRotate = false;
-		_isRotating = false;
-		_rotationsAroundItself = 0;
-		_isOnCutSequence = false;
-
-		if (this != null) { // workaround missing reference exception
-			if (_FixedJoint == null)
-				CreateFixedJoint();
-
-			StartCoroutine(ConfigureJoint(rigidbody));
-		}
-	}
-
 	private void RotateBackwards() {
 		PrepareToRotate("counterclockwise");
 		AddMovementForces(_backwardsVerticalMultiplier, _backwardsHorizontalMultiplier);
 	}
 
-	private void StopPlayer() {
-		_canRotate = false;
-		_rigidbody.angularDrag = 100f;
-		transform.rotation = _defaultRotation;
-	}
-
-	private void CountRotations(float angle) {
-		bool angleCondition = angle >= 300;
-		if (_direction > 0)
-			angleCondition = angle <= 60;
-
-		if (angleCondition && _timeRotating >= _rotationTimeToDefault) {
-			_rotationsAroundItself++;
-
-			_timeRotating = 0f;
-
-			_canCountRotations = false;
-		}
-	}
-
-	private void CreateFixedJoint() => gameObject.AddComponent<FixedJoint>();
-
-	private IEnumerator ConfigureJoint(Rigidbody rigidbody) {
-		yield return new WaitWhile(() => _FixedJoint == null); // wait joint creation
-
-		if (_fixedJoint != null)
-			_fixedJoint.connectedBody = rigidbody;
-	}
-
 	private void PrepareToRotate(string direction = "clockwise") {
-		if (_FixedJoint != null)
-			Destroy(_FixedJoint);
-
-		_rigidbody.angularDrag = _defaultAngularDrag;
-		_isOnCutSequence = false;
-		_canRotate = true;
+		ResetRotationState();
 
 		_direction = direction == "counterclockwise" ? 1 : -1;
 
-		_isRotating = true;
+		RemoveFixedJoint();
+		InitiateRotation();
+	}
+
+	private void ResetRotationState() {
+		_rigidbody.angularDrag = _defaultAngularDrag;
+		_isOnCutSequence = false;
 		_canCountRotations = true;
 		_timeRotating = 0f;
+	}
+
+	private void RemoveFixedJoint() {
+		if (_FixedJoint != null)
+			Destroy(_FixedJoint);
+	}
+
+	private void InitiateRotation() {
+		_canRotate = true;
+		_isRotating = true;
+	}
+
+	private void AddMovementForces(float upwardsMultiplier = 1f, float forwardsMultiplier = 1f) {
+		_rigidbody.velocity = Vector3.zero;
+		_rigidbody.AddForce(Vector3.up * _upwardsForce * upwardsMultiplier * Time.fixedDeltaTime, ForceMode.VelocityChange);
+		_rigidbody.AddForce(Vector3.right * _forwardsForce * (_direction * -1) * forwardsMultiplier * Time.fixedDeltaTime, ForceMode.VelocityChange);
 	}
 
 	private void Rotate() {
@@ -217,11 +192,55 @@ public class PlayerController : MonoBehaviour {
 			_rigidbody.angularDrag = _defaultAngularDrag;
 	}
 
-	private void AddMovementForces(float upwardsMultiplier = 1f, float forwardsMultiplier = 1f) {
-		_rigidbody.velocity = Vector3.zero;
-		_rigidbody.AddForce(Vector3.up * _upwardsForce * upwardsMultiplier * Time.fixedDeltaTime, ForceMode.VelocityChange);
-		_rigidbody.AddForce(Vector3.right * _forwardsForce * (_direction * -1) * forwardsMultiplier * Time.fixedDeltaTime, ForceMode.VelocityChange);
+	private void CountRotations(float angle) {
+		_timeRotating += Time.deltaTime;
+
+		bool angleCondition = angle >= 300;
+		if (_direction > 0)
+			angleCondition = angle <= 60;
+
+		if (angleCondition && _timeRotating >= _rotationTimeToDefault)
+			IncreaseRotationsAroundItselfOnce();
 	}
+
+	private void IncreaseRotationsAroundItselfOnce() {
+		_rotationsAroundItself++;
+		_canCountRotations = false;
+
+		_timeRotating = 0f;
+	}
+
+	private void GetStuckOn(Rigidbody rigidbody) {
+		StopRotation();
+		ResetRotationsAroundItself();
+
+		if (this != null) { // workaround missing reference exception
+			if (_FixedJoint == null)
+				CreateFixedJoint();
+
+			StartCoroutine(ConfigureJoint(rigidbody));
+		}
+	}
+
+	private void ResetRotationsAroundItself() => _rotationsAroundItself = 0;
+
+	private void CreateFixedJoint() => gameObject.AddComponent<FixedJoint>();
+
+	private IEnumerator ConfigureJoint(Rigidbody rigidbody) {
+		yield return new WaitWhile(() => _FixedJoint == null); // wait joint creation
+
+		if (_fixedJoint != null)
+			_fixedJoint.connectedBody = rigidbody;
+	}
+
+	private void HandleCutSequence() {
+		float timeDiff = Time.time - _lastCutTime;
+		_lastCutTime = Time.time;
+
+		_isOnCutSequence = timeDiff < .6f;
+	}
+
+	#region Math Utils
 
 	private bool IsRotationCloseToDefault(Quaternion rotation, float precision) {
 		return Mathf.Abs(Quaternion.Dot(rotation, _defaultRotation)) >= precision;
@@ -249,4 +268,6 @@ public class PlayerController : MonoBehaviour {
 
 		return angle;
 	}
+
+	#endregion
 }

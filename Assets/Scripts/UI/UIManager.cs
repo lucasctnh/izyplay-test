@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour {
 	public static event Action OnFirstTap;
 	public static event Action<bool> OnPause;
 
+#region Inspector Fields
+
 	[Header("Initial Menu")]
 	[SerializeField] private GameObject _initialMenu;
 	[SerializeField] private TMP_Text _levelText;
@@ -30,7 +32,15 @@ public class UIManager : MonoBehaviour {
 	[SerializeField] private GameObject _gameOverMenu;
 	[SerializeField] private TMP_Text _gameOverCoinsText;
 
+#endregion
+
+#region Private Fields
+
 	private bool _areAnyMenusOpen = false;
+
+#endregion
+
+#region Unity Lifecycle
 
 	private void Awake() => _levelText.text = SceneManager.GetActiveScene().name;
 
@@ -50,6 +60,10 @@ public class UIManager : MonoBehaviour {
 		GameManager.OnSkinChange -= CloseAnyMenu;
 	}
 
+#endregion
+
+#region Public Methods
+
 	public void TapTouchableArea() {
 		if (_areAnyMenusOpen) {
 			CloseAnyMenu();
@@ -61,6 +75,8 @@ public class UIManager : MonoBehaviour {
 		if (!GameManager.Instance.HasGameStarted)
 			ConfigureInitialUI();
 	}
+
+	#region Menu-Changing Methods
 
 	public void OpenLevelsMenu() {
 		CloseAnyMenu();
@@ -83,6 +99,10 @@ public class UIManager : MonoBehaviour {
 		_areAnyMenusOpen = false;
 	}
 
+	#endregion
+
+	#region State-Changing Methods
+
 	public void Continue() {
 		if (SceneManager.GetActiveScene().buildIndex + 1 >= SceneManager.sceneCountInBuildSettings)
 			GameManager.Instance.LoadLevel(0);
@@ -98,6 +118,12 @@ public class UIManager : MonoBehaviour {
 
 		OnPause?.Invoke(pauseState);
 	}
+
+	#endregion
+
+#endregion
+
+#region Utils
 
 	private void ConfigureInitialUI() {
 		_initialMenu.SetActive(false);
@@ -115,4 +141,6 @@ public class UIManager : MonoBehaviour {
 		if (this != null)
 			action();
 	}
+
+#endregion
 }

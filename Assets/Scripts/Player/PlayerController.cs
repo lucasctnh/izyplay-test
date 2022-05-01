@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour {
 	public static event Action OnDeath;
 
+#region Inspector Fields
+
 	[Header("Movement")]
 	[Tooltip("The force that will be applied to the movement vertically")]
 	[SerializeField] private float _upwardsForce = 200f;
@@ -41,6 +43,10 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] private Blade _blade;
 	[SerializeField] private Handle _handle;
 
+#endregion
+
+#region Private Properties & Fields
+
 	private FixedJoint _FixedJoint {
 		get {
 			if (this != null)
@@ -60,6 +66,10 @@ public class PlayerController : MonoBehaviour {
 	private bool _canCountRotations = true;
 	private bool _canRotate = false;
 	private bool _isOnCutSequence = false;
+
+#endregion
+
+#region Unity Lifecycle
 
 	private void OnEnable() {
 		UIManager.OnTapTouchableArea += Move;
@@ -117,6 +127,10 @@ public class PlayerController : MonoBehaviour {
 		if (contact.thisCollider.gameObject.CompareTag("Handle"))
 			_handle.OnCollisionEnter(other);
 	}
+
+#endregion
+
+#region Movement
 
 	private void CapRotation() {
 		StopRotation();
@@ -210,6 +224,10 @@ public class PlayerController : MonoBehaviour {
 		_timeRotating = 0f;
 	}
 
+#endregion
+
+#region Stuck Logic
+
 	private void GetStuckOn(Rigidbody rigidbody) {
 		StopRotation();
 		ResetRotationsAroundItself();
@@ -233,6 +251,8 @@ public class PlayerController : MonoBehaviour {
 			_fixedJoint.connectedBody = rigidbody;
 	}
 
+#endregion
+
 	private void HandleCutSequence() {
 		float timeDiff = Time.time - _lastCutTime;
 		_lastCutTime = Time.time;
@@ -240,7 +260,7 @@ public class PlayerController : MonoBehaviour {
 		_isOnCutSequence = timeDiff < .6f;
 	}
 
-	#region Math Utils
+#region Math Utils
 
 	private bool IsRotationCloseToDefault(Quaternion rotation, float precision) {
 		return Mathf.Abs(Quaternion.Dot(rotation, _defaultRotation)) >= precision;
@@ -269,5 +289,5 @@ public class PlayerController : MonoBehaviour {
 		return angle;
 	}
 
-	#endregion
+#endregion
 }

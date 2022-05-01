@@ -10,10 +10,16 @@ public class GameManager : MonoBehaviour {
 	public static event Action<int> OnUpdateCoins;
 	public static event Action OnSkinChange;
 
+#region Public Properties
+
 	public int Coins { get; private set; }
 	public int CurrentSkin { get; private set; }
 	public bool IsGameRunning { get { return _isGameRunning; } private set { _isGameRunning = value; } }
 	public bool HasGameStarted { get { return _hasGameStarted; } private set { _hasGameStarted = value; } }
+
+#endregion
+
+#region Inspector Fields
 
 	[Header("References")]
 	public Transform playerSpawn;
@@ -22,8 +28,16 @@ public class GameManager : MonoBehaviour {
 	[Header("Settings")]
 	[SerializeField] private int _targetFrameRate = 60;
 
+#endregion
+
+#region Private Fields
+
 	private bool _isGameRunning = true;
 	private bool _hasGameStarted = false;
+
+#endregion
+
+#region Unity Lifecycle
 
 	private void OnEnable() {
 		UIManager.OnFirstTap += () => HasGameStarted = true;
@@ -53,6 +67,10 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void Start() => FindNewPlayerSpawn();
+
+#endregion
+
+#region Public Methods
 
 	public void ChangeSkin(int skinIndex) {
 		CurrentSkin = skinIndex;
@@ -86,6 +104,10 @@ public class GameManager : MonoBehaviour {
 
 	public void LoadLevel(int index) => StartCoroutine(LoadScene(index));
 
+#endregion
+
+#region Private State-Changing Methods
+
 	private IEnumerator LoadScene(int index) {
 		ResetGameState();
 
@@ -105,17 +127,6 @@ public class GameManager : MonoBehaviour {
 		HasGameStarted = false;
 	}
 
-	private void FindNewPlayerSpawn() {
-		GameObject spawn = GameObject.FindGameObjectWithTag("Player Spawn");
-		if (spawn != null)
-			playerSpawn = spawn.transform;
-	}
-
-	private void IncreaseCoins() {
-		Coins++;
-		OnUpdateCoins?.Invoke(Coins);
-	}
-
 	private void GameOver(int multiplier) {
 		StopGame();
 		MultiplyCoins(multiplier);
@@ -124,11 +135,6 @@ public class GameManager : MonoBehaviour {
 	private void StopGame() {
 		IsGameRunning = false;
 		FreezeGame();
-	}
-
-	private void MultiplyCoins(int multiplier) {
-		Coins *= multiplier;
-		OnUpdateCoins?.Invoke(Coins);
 	}
 
 	private void Pause(bool pauseState) {
@@ -142,8 +148,34 @@ public class GameManager : MonoBehaviour {
 
 	private void UnfreezeGame() => Time.timeScale = 1f;
 
+#endregion
+
+#region Utils
+
+	private void FindNewPlayerSpawn() {
+		GameObject spawn = GameObject.FindGameObjectWithTag("Player Spawn");
+		if (spawn != null)
+			playerSpawn = spawn.transform;
+	}
+
+	private void IncreaseCoins() {
+		Coins++;
+		OnUpdateCoins?.Invoke(Coins);
+	}
+
+	private void MultiplyCoins(int multiplier) {
+		Coins *= multiplier;
+		OnUpdateCoins?.Invoke(Coins);
+	}
+
+#endregion
+
+#region Graphics
+
 	private void LimitFrameRate() {
 		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = _targetFrameRate;
 	}
+
+#endregion
 }

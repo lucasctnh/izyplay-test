@@ -6,16 +6,36 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour {
-	[Header("Settings")]
+	public static event Action OnDeath;
+
+	[Header("Movement")]
+	[Tooltip("The force that will be applied to the movement vertically")]
 	[SerializeField] private float _upwardsForce = 200f;
+
+	[Tooltip("The force that will be applied to the movement horizontally")]
 	[SerializeField] private float _forwardsForce = 200f;
-	[SerializeField] private float _rotationTorque = 20f;
-	[SerializeField] private float _rotationTimeToDefault = 1f;
-	[SerializeField] private float _brakeAngularDrag = 8f;
-	[SerializeField] private float _defaultAngularDrag = .05f;
+
+	[Tooltip("A multiplier that will be applied to the vertical force when the rotation is backwards")]
 	[SerializeField] private float _backwardsVerticalMultiplier = .6f;
+
+	[Tooltip("A multiplier that will be applied to the horizontal force when the rotation is backwards")]
 	[SerializeField] private float _backwardsHorizontalMultiplier = 1.2f;
+
+	[Tooltip("A multiplier that will be applied to gravity when in a sequence of cuts")]
 	[SerializeField] private float _cutSequenceMultiplier = 2f;
+
+	[Header("Rotation")]
+	[Tooltip("The torque to be applied every frame if a move action was detected")]
+	[SerializeField] private float _rotationTorque = 20f;
+
+	[Tooltip("The minimum time in seconds to count a complete rotation around itself")]
+	[SerializeField] private float _rotationTimeToDefault = 1f;
+
+	[Tooltip("The angular drag that will be applied when one rotation is near complete")]
+	[SerializeField] private float _brakeAngularDrag = 8f;
+
+	[Tooltip("The default angular drag")]
+	[SerializeField] private float _defaultAngularDrag = .05f;
 
 	[Header("Components References")]
 	[SerializeField] private Blade _blade;
@@ -89,6 +109,9 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void OnCollisionEnter(Collision other) {
+		if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Spikes"))
+			OnDeath?.Invoke();
+
 		ContactPoint contact = other.GetContact(0);
 		if (contact.thisCollider.gameObject.CompareTag("Blade"))
 			_blade.OnCollisionEnter(other);

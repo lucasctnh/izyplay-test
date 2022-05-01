@@ -16,6 +16,10 @@ public class Blade : MonoBehaviour {
 
 	private bool _canStuck = true;
 
+	private void OnEnable() => OnBladeStuck += (rb) => StartCoroutine(WaitToGetStuckAgain());
+
+	private void OnDisable() => OnBladeStuck -= (rb) => StartCoroutine(WaitToGetStuckAgain());
+
 	public void OnCollisionEnter(Collision other) {
 		if (other.gameObject.CompareTag("Stuckable") && _canStuck)
 			OnBladeStuck?.Invoke(other.rigidbody);
@@ -26,21 +30,30 @@ public class Blade : MonoBehaviour {
 
 	private void Cut(Transform cuttable) {
 		foreach (Transform child in cuttable) {
-			Rigidbody rb = child.gameObject.GetComponent<Rigidbody>();
-			if (rb == null)
-				rb = child.gameObject.AddComponent<Rigidbody>();
-
+			Rigidbody rb = CreateRigidbody(child);
 			rb.AddForce(-child.transform.forward * _cutForce, ForceMode.VelocityChange);
 
-			DestroyFarFromPlayer far = child.gameObject.AddComponent<DestroyFarFromPlayer>();
-			far.player = transform;
-			far.minDistance = _minDistanceToDestroy;
+			CreateDestroyFarFromPlayer(child);
 		}
 
 		cuttable.DetachChildren();
 		Destroy(cuttable.gameObject);
 
 		OnBladeCut?.Invoke();
+	}
+
+	private Rigidbody CreateRigidbody(Transform child) {
+		Rigidbody rb = child.gameObject.GetComponent<Rigidbody>();
+		if (rb == null)
+			rb = child.gameObject.AddComponent<Rigidbody>();
+
+		return rb;
+	}
+
+	private void CreateDestroyFarFromPlayer(Transform child) {
+		DestroyFarFromPlayer far = child.gameObject.AddComponent<DestroyFarFromPlayer>();
+		far.player = transform;
+		far.minDistance = _minDistanceToDestroy;
 	}
 
 	private IEnumerator WaitToGetStuckAgain() {

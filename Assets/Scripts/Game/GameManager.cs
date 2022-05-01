@@ -72,8 +72,6 @@ public class GameManager : MonoBehaviour {
 			cameraController.SetNewTarget(target);
 	}
 
-	public void LoadLevel(int index) => StartCoroutine(LoadScene(index));
-
 	// returns true if the buy was sucessful
 	public bool SpendCoins(int spendAmount) {
 		if (Coins - spendAmount >= 0) {
@@ -85,6 +83,8 @@ public class GameManager : MonoBehaviour {
 		else
 			return false;
 	}
+
+	public void LoadLevel(int index) => StartCoroutine(LoadScene(index));
 
 	private IEnumerator LoadScene(int index) {
 		ResetGameState();
@@ -98,12 +98,6 @@ public class GameManager : MonoBehaviour {
 		FindNewPlayerSpawn();
 	}
 
-	private void FindNewPlayerSpawn() {
-		GameObject spawn = GameObject.FindGameObjectWithTag("Player Spawn");
-		if (spawn != null)
-			playerSpawn = spawn.transform;
-	}
-
 	private void ResetGameState() {
 		UnfreezeGame();
 
@@ -111,13 +105,10 @@ public class GameManager : MonoBehaviour {
 		HasGameStarted = false;
 	}
 
-	private void FreezeGame() => Time.timeScale = 0f;
-
-	private void UnfreezeGame() => Time.timeScale = 1f;
-
-	private void LimitFrameRate() {
-		QualitySettings.vSyncCount = 0;
-		Application.targetFrameRate = _targetFrameRate;
+	private void FindNewPlayerSpawn() {
+		GameObject spawn = GameObject.FindGameObjectWithTag("Player Spawn");
+		if (spawn != null)
+			playerSpawn = spawn.transform;
 	}
 
 	private void IncreaseCoins() {
@@ -145,5 +136,14 @@ public class GameManager : MonoBehaviour {
 			FreezeGame();
 		else
 			UnfreezeGame();
+	}
+
+	private void FreezeGame() => Time.timeScale = 0f;
+
+	private void UnfreezeGame() => Time.timeScale = 1f;
+
+	private void LimitFrameRate() {
+		QualitySettings.vSyncCount = 0;
+		Application.targetFrameRate = _targetFrameRate;
 	}
 }

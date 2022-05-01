@@ -27,16 +27,16 @@ public class GameManager : MonoBehaviour {
 
 	private void OnEnable() {
 		UIManager.OnFirstTap += () => HasGameStarted = true;
-		EndGame.OnEndGame += (multiplier) => GameOver(multiplier);
-		Blade.OnBladeCut += IncreaseCoins;
+		EndGameCollider.OnHit += (multiplier) => GameOver(multiplier);
+		Blade.OnCut += IncreaseCoins;
 		PlayerController.OnDeath += StopGame;
 		UIManager.OnPause += (pauseState) => Pause(pauseState);
 	}
 
 	private void OnDisable() {
 		UIManager.OnFirstTap -= () => HasGameStarted = true;
-		EndGame.OnEndGame -= (multiplier) => GameOver(multiplier);
-		Blade.OnBladeCut -= IncreaseCoins;
+		EndGameCollider.OnHit -= (multiplier) => GameOver(multiplier);
+		Blade.OnCut -= IncreaseCoins;
 		UIManager.OnPause -= (pauseState) => Pause(pauseState);
 	}
 

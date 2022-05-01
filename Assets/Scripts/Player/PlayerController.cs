@@ -63,15 +63,15 @@ public class PlayerController : MonoBehaviour {
 
 	private void OnEnable() {
 		UIManager.OnTapTouchableArea += Move;
-		Blade.OnBladeStuck += (rigidbody) => GetStuckOn(rigidbody);
-		Blade.OnBladeCut += HandleCutSequence;
+		Blade.OnStuck += (rigidbody) => GetStuckOn(rigidbody);
+		Blade.OnCut += HandleCutSequence;
 		Handle.OnHit += RotateBackwards;
 	}
 
 	private void OnDisable() {
 		UIManager.OnTapTouchableArea -= Move;
-		Blade.OnBladeStuck -= (rigidbody) => GetStuckOn(rigidbody);
-		Blade.OnBladeCut -= HandleCutSequence;
+		Blade.OnStuck -= (rigidbody) => GetStuckOn(rigidbody);
+		Blade.OnCut -= HandleCutSequence;
 		Handle.OnHit -= RotateBackwards;
 	}
 

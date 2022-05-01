@@ -37,14 +37,14 @@ public class UIManager : MonoBehaviour {
 	private void Start() => UpdateCoins(GameManager.Instance.Coins);
 
 	private void OnEnable() {
-		EndGame.OnEndGame += (mult) => IfScriptLoadedDo(() => _gameOverMenu.SetActive(true));
+		EndGameCollider.OnHit += (mult) => IfScriptLoadedDo(() => _gameOverMenu.SetActive(true));
 		PlayerController.OnDeath += () => IfScriptLoadedDo(() => _pauseRestartMenu.SetActive(true));
 		GameManager.OnUpdateCoins += (coins) => UpdateCoins(coins);
 		GameManager.OnSkinChange += CloseAnyMenu;
 	}
 
 	private void OnDisable() {
-		EndGame.OnEndGame -= (mult) => IfScriptLoadedDo(() => _gameOverMenu.SetActive(true));
+		EndGameCollider.OnHit -= (mult) => IfScriptLoadedDo(() => _gameOverMenu.SetActive(true));
 		PlayerController.OnDeath -= () => IfScriptLoadedDo(() => _pauseRestartMenu.SetActive(true));
 		GameManager.OnUpdateCoins -= (coins) => UpdateCoins(coins);
 		GameManager.OnSkinChange -= CloseAnyMenu;

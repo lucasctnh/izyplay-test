@@ -55,14 +55,14 @@ public class GameManager : MonoBehaviour {
 	private void Start() => FindNewPlayerSpawn();
 
 	public void ChangeSkin(int skinIndex) {
-		GameObject player = GameObject.FindGameObjectWithTag("Player");
-		GameObject newPlayer = Instantiate(skins[skinIndex], playerSpawn.position, skins[skinIndex].transform.rotation);
-		CameraFollowNewTarget(newPlayer.transform);
-
-		if (player != null)
-			Destroy(player);
-
 		CurrentSkin = skinIndex;
+
+		GameObject lastPlayer = GameObject.FindGameObjectWithTag("Player");
+		playerSpawn.GetComponent<SpawnPlayer>().SpawnNewPlayer();
+
+		if (lastPlayer != null)
+			Destroy(lastPlayer);
+
 		OnSkinChange?.Invoke();
 	}
 

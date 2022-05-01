@@ -1,5 +1,7 @@
 # Teste 'Slice It All' - IzyPlay
 
+[Download APK](https://github.com/lcscout/izyplay-test/releases/tag/v1.0.11)
+
 O teste consistia em fazer um clone do jogo **Slice It All** num prazo de 60 horas. O processo foi bem difícil, principalmente por conta do pouco tempo. Meu approach foi basicamente o mesmo de quando eu faço um protótipo, analisar o jogo/pensar nos sistemas essenciais → mecânicas principais → UI simples → outros sistemas pertinentes → refatorar.
 
 Primeiro fiz a camera seguir o player e aí fui fazer a mecânica mais importante, a movimentação do jogador. O player sendo uma faca, sua movimentação consiste em rotacionar em seu próprio eixo e ao mesmo tempo mover-se para frente. Foi bem difícil chegar em modelo que me agradou e passei muito tempo aqui já que é a mecânica central do jogo.

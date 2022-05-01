@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Blade : MonoBehaviour {
-	public static event Action<Rigidbody> OnBladeStuck;
-	public static event Action OnBladeCut;
+	public static event Action<Rigidbody> OnStuck;
+	public static event Action OnCut;
 
 	[Header("Settings")]
 	[Tooltip("The force to be applied to throw the halfs of the cuttable away")]
@@ -16,13 +16,13 @@ public class Blade : MonoBehaviour {
 
 	private bool _canStuck = true;
 
-	private void OnEnable() => OnBladeStuck += (rb) => StartCoroutine(WaitToGetStuckAgain());
+	private void OnEnable() => OnStuck += (rb) => StartCoroutine(WaitToGetStuckAgain());
 
-	private void OnDisable() => OnBladeStuck -= (rb) => StartCoroutine(WaitToGetStuckAgain());
+	private void OnDisable() => OnStuck -= (rb) => StartCoroutine(WaitToGetStuckAgain());
 
 	public void OnCollisionEnter(Collision other) {
 		if (other.gameObject.CompareTag("Stuckable") && _canStuck)
-			OnBladeStuck?.Invoke(other.rigidbody);
+			OnStuck?.Invoke(other.rigidbody);
 
 		if (other.gameObject.CompareTag("Cuttable"))
 			Cut(other.transform);
@@ -39,7 +39,7 @@ public class Blade : MonoBehaviour {
 		cuttable.DetachChildren();
 		Destroy(cuttable.gameObject);
 
-		OnBladeCut?.Invoke();
+		OnCut?.Invoke();
 	}
 
 	private Rigidbody CreateRigidbody(Transform child) {

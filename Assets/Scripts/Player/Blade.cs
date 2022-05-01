@@ -14,14 +14,8 @@ public class Blade : MonoBehaviour {
 	[Tooltip("The minimum distance from the player for the halfs of cuttable start to destroy themselves")]
 	[SerializeField] private float _minDistanceToDestroy = 40f;
 
-	private bool _canStuck = true;
-
-	private void OnEnable() => OnStuck += (rb) => StartCoroutine(WaitToGetStuckAgain());
-
-	private void OnDisable() => OnStuck -= (rb) => StartCoroutine(WaitToGetStuckAgain());
-
 	public void OnCollisionEnter(Collision other) {
-		if (other.gameObject.CompareTag("Stuckable") && _canStuck)
+		if (other.gameObject.CompareTag("Stuckable"))
 			OnStuck?.Invoke(other.rigidbody);
 
 		if (other.gameObject.CompareTag("Cuttable"))
@@ -54,11 +48,5 @@ public class Blade : MonoBehaviour {
 		DestroyFarFromPlayer far = child.gameObject.AddComponent<DestroyFarFromPlayer>();
 		far.player = transform;
 		far.minDistance = _minDistanceToDestroy;
-	}
-
-	private IEnumerator WaitToGetStuckAgain() {
-		_canStuck = false;
-		yield return new WaitForSeconds(.5f);
-		_canStuck = true;
 	}
 }

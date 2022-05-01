@@ -74,7 +74,8 @@ public class GameManager : MonoBehaviour {
 
 	public void LoadLevel(int index) => StartCoroutine(LoadScene(index));
 
-	public bool SpendCoins(int spendAmount) { // returns true if the buy was sucessful
+	// returns true if the buy was sucessful
+	public bool SpendCoins(int spendAmount) {
 		if (Coins - spendAmount >= 0) {
 			Coins -= spendAmount;
 			OnUpdateCoins?.Invoke(Coins);

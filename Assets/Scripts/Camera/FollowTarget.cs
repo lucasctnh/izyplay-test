@@ -6,11 +6,18 @@ using UnityEngine.Animations;
 public class FollowTarget : MonoBehaviour {
 	[Header("Settings")]
 	[SerializeField] private float _smoothSpeed = 0.125f;
+
+	[Header("References")]
 	[SerializeField] private Transform _target;
 
 	private Vector3 _offset;
 
-	private void Awake() => _offset = transform.position - _target.position;
+	private void Start() {
+		if (_target == null)
+			_target = GameManager.Instance.playerSpawn;
+
+		_offset = transform.position - _target.position;
+	}
 
 	private void FixedUpdate() {
 		Vector3 desiredPosition = _target.position + _offset;

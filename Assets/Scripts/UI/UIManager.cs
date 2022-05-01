@@ -104,8 +104,11 @@ public class UIManager : MonoBehaviour {
 	#region State-Changing Methods
 
 	public void Continue() {
-		if (SceneManager.GetActiveScene().buildIndex + 1 >= SceneManager.sceneCountInBuildSettings)
+		bool isLastLevel = SceneManager.GetActiveScene().buildIndex + 1 >= SceneManager.sceneCountInBuildSettings;
+		if (isLastLevel) {
 			GameManager.Instance.LoadLevel(0);
+			return;
+		}
 
 		GameManager.Instance.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
 	}

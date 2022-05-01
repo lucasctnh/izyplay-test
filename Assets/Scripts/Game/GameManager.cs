@@ -67,9 +67,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void CameraFollowNewTarget(Transform target) {
-		FollowTarget followScript = Camera.main.GetComponent<FollowTarget>();
-		if (followScript != null)
-			followScript.SetNewTarget(target);
+		CameraController cameraController = Camera.main.GetComponent<CameraController>();
+		if (cameraController != null)
+			cameraController.SetNewTarget(target);
 	}
 
 	public void LoadLevel(int index) => StartCoroutine(LoadScene(index));
